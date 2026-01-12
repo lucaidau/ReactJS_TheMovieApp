@@ -1,28 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { movieApi } from "../services/movieApi";
 import { Star } from "lucide-react";
 import Loading from "../components/Loading";
+import { useMovieDetail } from "../hooks/useMovieDetail";
 
 const MovieDetail = () => {
-  const { id } = useParams();
-  const [movie, setMovie] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    movieApi
-      .getMovieDetail(id)
-      .then((res) => {
-        setMovie(res.data);
-      })
-      .catch((error) => console.log("Error retrieving movie details: ", error))
-      .finally(() => setLoading(false));
-  }, [id]);
-
-  console.log(typeof movie);
+  const { id, movie, loading, error } = useMovieDetail();
 
   if (loading) return <Loading></Loading>;
-  if (!movie) return <p className="text-txt-primary p-10">Movie not found</p>;
+  if (error) return <p className="text-txt-primary p-10">Movie not found</p>;
 
   const imgUrl = movie.poster_path
     ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
@@ -35,8 +19,8 @@ const MovieDetail = () => {
         alt={`Movie of ${id}`}
         className="w-full md:w-80 rounded-2xl shadow-lg object-cover"
       />
-      <div className="flex-1">
-        <h1 className="text-4xl font-bold text-accent-primary mb-4">
+      <div className="flex-1 text-center md:text-left">
+        <h1 className="text-2xl md:text-4xl font-bold text-accent-primary mb-4">
           {movie.title}
         </h1>
 

@@ -1,45 +1,16 @@
-import { useEffect, useState } from "react";
-import Header from "./components/Header";
-import MovieCard from "./components/MovieCard";
-import { movieApi } from "./services/movieApi";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useMovies } from "./hooks/useMovies";
+import Header from "./components/Header";
 import Home from "./pages/Home";
+
 import MovieDetail from "./pages/MovieDetail";
 
 function App() {
-  const [movies, setMovies] = useState([]); //Movie render
-  const [loading, setLoading] = useState(true); // Loading while wait API response
-  const [query, setQuery] = useState(""); //Movie Search
+  const { movies, loading, query, setQuery, searchMovie } = useMovies();
 
-  const fetchPopularMovie = () => {
-    movieApi
-      .getPopular()
-
-      .then((res) => setMovies(res.data.results))
-      .finally(() => setLoading(false));
-  };
-
-  //Popular Movie API
-  useEffect(() => {
-    fetchPopularMovie();
-  }, []);
-  console.log(movies);
-
-  const onSearchSubmit = (e) => {
+  const handleSearch = (e) => {
     e.preventDefault();
-    console.log("Searching: ", query);
-
-    if (query.trim() === "") {
-      fetchPopularMovie();
-      return;
-    }
-
-    setLoading(true);
-
-    movieApi
-      .getSearchMovie(query)
-      .then((res) => setMovies(res.data.results))
-      .finally(() => setLoading(false));
+    searchMovie(query);
   };
 
   return (
@@ -49,7 +20,7 @@ function App() {
           className="fixed"
           query={query}
           setQuery={setQuery}
-          onSearchSubmit={onSearchSubmit}
+          onSearchSubmit={handleSearch}
         ></Header>
 
         <Routes>

@@ -3,12 +3,12 @@ import { Search } from "lucide-react";
 
 const Header = ({ query, setQuery, onSearchSubmit }) => {
   return (
-    <div className="flex justify-between items-center h-20 px-8 py-4 sticky top-0 bg-bgr-primary/80 backdrop-blur-md z-50">
+    <header className="flex flex-col md:flex-row justify-between items-center h-20 px-8 py-4 sticky top-0 bg-bgr-primary/80 backdrop-blur-md z-50">
       <h1 className="uppercase font-extrabold text-2xl text-accent-primary tracking-tighter  cursor-pointer">
         🎬movie app
       </h1>
 
-      <form className="relative group" onSubmit={onSearchSubmit}>
+      <form className="relative group w-full md:w-96" onSubmit={onSearchSubmit}>
         <input
           type="text"
           value={query}
@@ -23,7 +23,7 @@ const Header = ({ query, setQuery, onSearchSubmit }) => {
           ></Search>
         </button>
       </form>
-    </div>
+    </header>
   );
 };
 
