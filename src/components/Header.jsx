@@ -8,7 +8,7 @@ const Header = ({ query, setQuery, onSearchSubmit }) => {
         🎬movie app
       </h1>
 
-      <form className="relative group w-full md:w-96" onSubmit={onSearchSubmit}>
+      <form className="relative group " onSubmit={onSearchSubmit}>
         <input
           type="text"
           value={query}
